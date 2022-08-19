@@ -6,9 +6,13 @@ from tensorflow.keras.models import load_model
 
 class GestureRecognition:
 
-    hands = 0
 
-    
+    def __init__(self):
+        self.mpHands = mp.solutions.hands
+        self.hands = self.mpHands.Hands(max_num_hands=1, min_detection_confidence=0.7)
+        self.mpDraw = mp.solutions.drawing_utils
+        self.model = load_model('mp_hand_gesture')
+
   
     def init_tensorflow(self):
         # initialize mediapipe
@@ -35,9 +39,9 @@ class GestureRecognition:
             frame = cv2.flip(frame, 1)
             framergb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             # Get hand landmark prediction
-            result = GestureRecognition.hands.process(framergb)
+            result = self.hands.process(framergb)
             className = ''
-            # post process the result
+            # Post process the result
             if result.multi_hand_landmarks:
                 landmarks = []
                 for handslms in result.multi_hand_landmarks:
@@ -47,9 +51,19 @@ class GestureRecognition:
                         lmy = int(lm.y * y)
                         landmarks.append([lmx, lmy])
                     # Drawing landmarks on frames
-                    mpDraw.draw_landmarks(frame, handslms, 
-            mpHands.HAND_CONNECTIONS)
-
+                    self.mpDraw.draw_landmarks(frame, handslms, 
+            self.mpHands.HAND_CONNECTIONS)                    
+                    # Load class names
+                    f = open('gesture.names', 'r')
+                    classNames = f.read().split('\n')
+                    f.close()
+                    # Predict gesture
+                    prediction = model.predict([landmarks])
+                    print(prediction)
+                    classID = np.argmax(prediction)
+                    className = classNames[classID]
+            # Show the prediction on the frame
+            cv2.putText(frame, className, (10, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,255), 2, cv2.LINE_AA)
 
 
             # Show the final output
