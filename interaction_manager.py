@@ -3,6 +3,7 @@ from Gesture_Recognition import GestureRecognition
 
 import mediapipe as mp
 import tensorflow as tf
+from Speech_Recognition import SpeechRecognition
 from tensorflow.keras.models import load_model
 
 # initialize mediapipe
@@ -12,4 +13,8 @@ mpDraw = mp.solutions.drawing_utils
 
 gr = GestureRecognition()
 # gr.init_tensorflow()
-gr.recognize_handGestures()
+# gr.recognize_handGestures()
+
+sr = SpeechRecognition()
+# sr.list_mics()
+sr.speechRecognition()
