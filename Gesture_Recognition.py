@@ -51,8 +51,7 @@ class GestureRecognition:
                         lmy = int(lm.y * y)
                         landmarks.append([lmx, lmy])
                     # Drawing landmarks on frames
-                    self.mpDraw.draw_landmarks(frame, handslms, 
-            self.mpHands.HAND_CONNECTIONS)                    
+                    self.mpDraw.draw_landmarks(frame, handslms, self.mpHands.HAND_CONNECTIONS)                    
                     # Load class names
                     f = open('gesture.names', 'r')
                     classNames = f.read().split('\n')
