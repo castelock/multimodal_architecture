@@ -57,7 +57,7 @@ class GestureRecognition:
                     classNames = f.read().split('\n')
                     f.close()
                     # Predict gesture
-                    prediction = model.predict([landmarks])
+                    prediction = self.model.predict([landmarks])
                     print(prediction)
                     classID = np.argmax(prediction)
                     className = classNames[classID]
