@@ -9,6 +9,10 @@ class MainWindow(QMainWindow):
 
         self.setWindowTitle("My App")
 
+        # Window width and height
+        self.windowWidth = 1000
+        self.windowHeight = 800
+
         # Layout
         layout = QGridLayout()
         #layout.setSpacing(10)
@@ -21,22 +25,45 @@ class MainWindow(QMainWindow):
         layout.addWidget(QLineEdit(), 3, 2)
         layout.addWidget(QPushButton("Enviar"), 4, 3)
         
-        self.setGeometry(100, 60, 1000, 800)
+        # setting  the size of window
+        # setGeometry(left, top, width, height)
+        self.setGeometry(100, 60, self.windowWidth, self.windowHeight)
+
+        self.labelTitle = QLabel("FORMULARIO",self)
+
+        self.labelTitle.move(int(0.5*self.windowWidth), int(0.1*self.windowHeight))
+
+        # TO DO Use setStyleSheet to modify the widget's properties.
+
+        self.labelName = QLabel("Nombre",self)
+
+        self.labelName.move(int(0.1*self.windowWidth), int(0.2*self.windowHeight))
+
+        self.textboxName = QLineEdit(self)
+
+        self.textboxName.move(int(0.2*self.windowWidth), int(0.2*self.windowHeight))
+
+        self.labelLastName = QLabel("Apellidos",self)
+
+        self.labelLastName.move(int(0.1*self.windowWidth), int(0.3*self.windowHeight))
+
+        self.labelAge = QLabel("Edad",self)
+
+        self.labelAge.move(int(0.1*self.windowWidth), int(0.4*self.windowHeight))
 
         # self.setLayout(layout)
-        widget = QWidget()
+        """widget = QWidget()
         widget.setLayout(layout)        
         
         
-        self.setCentralWidget(widget)
+        self.setCentralWidget(widget)"""
 
 
 
 app = QApplication(sys.argv)
 
 window = MainWindow()
-# setting  the size of window
-# setGeometry(left, top, width, height)
+
 #window.setGeometry(100, 60, 1000, 800)
 
 window.show()
