@@ -47,9 +47,25 @@ class MainWindow(QMainWindow):
 
         self.labelLastName.move(int(0.1*self.windowWidth), int(0.3*self.windowHeight))
 
+        self.textboxLastName = QLineEdit(self)
+
+        self.textboxLastName.move(int(0.2*self.windowWidth), int(0.3*self.windowHeight))
+
         self.labelAge = QLabel("Edad",self)
 
         self.labelAge.move(int(0.1*self.windowWidth), int(0.4*self.windowHeight))
+
+        self.textboxAge = QLineEdit(self)
+
+        self.textboxAge.move(int(0.2*self.windowWidth), int(0.4*self.windowHeight))
+
+        self.buttonSend = QPushButton("Enviar", self)
+
+        self.buttonSend.move(int(0.4*self.windowWidth), int(0.5*self.windowHeight))
+
+        self.buttonExit = QPushButton("Salir", self)
+
+        self.buttonExit.move(int(0.6*self.windowWidth), int(0.5*self.windowHeight))
 
         # self.setLayout(layout)
         """widget = QWidget()
