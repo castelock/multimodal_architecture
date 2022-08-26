@@ -33,7 +33,7 @@ class MainWindow(QMainWindow):
 
         self.labelTitle.move(int(0.5*self.windowWidth), int(0.1*self.windowHeight))
 
-        # TO DO Use setStyleSheet to modify the widget's properties.
+        # TODO Use setStyleSheet to modify the widget's properties.
 
         self.labelName = QLabel("Nombre",self)
 
