@@ -1,4 +1,4 @@
-class Event(object):
+class Event_Interaction(object):
  
     def __init__(self):
         self.__eventhandlers = []

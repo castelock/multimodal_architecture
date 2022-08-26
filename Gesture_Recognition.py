@@ -1,10 +1,13 @@
+from pydoc import classname
 import cv2
 import numpy as np
 import mediapipe as mp
 import tensorflow as tf
 from interaction_manager import InteractionManager
+# from interaction_manager import InteractionManager
+
 from tensorflow.keras.models import load_model
-import Event
+from Event_handler import Event_Interaction
 
 class GestureRecognition:
 
@@ -14,7 +17,8 @@ class GestureRecognition:
         self.hands = self.mpHands.Hands(max_num_hands=1, min_detection_confidence=0.7)
         self.mpDraw = mp.solutions.drawing_utils
         self.model = load_model('mp_hand_gesture')
-        self.gesture_event = Event()       
+        self.gesture_event = Event_Interaction() 
+        self.className = "unkown"      
 
   
     def init_tensorflow(self):
@@ -43,6 +47,8 @@ class GestureRecognition:
 
     # Main method to recognise a gesture
     def recognize_handGestures(self):
+        # Variable to stop the loop when a gesture is recognised
+        gesture_rec = False
         # Initialize the webcam for Hand Gesture Recognition Python project
         cap = cv2.VideoCapture(0)
         while True:
@@ -54,7 +60,7 @@ class GestureRecognition:
             framergb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             # Get hand landmark prediction
             result = self.hands.process(framergb)
-            className = ''
+            # className = ''
             # Post process the result
             if result.multi_hand_landmarks:
                 landmarks = []
@@ -74,36 +80,39 @@ class GestureRecognition:
                     prediction = self.model.predict([landmarks])
                     print(prediction)
                     classID = np.argmax(prediction)
-                    className = classNames[classID]
+                    self.className = classNames[classID]
             # Show the prediction on the frame
-            cv2.putText(frame, className, (10, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,255), 2, cv2.LINE_AA)
+            cv2.putText(frame, self.className, (10, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,255), 2, cv2.LINE_AA)
 
             # Send event if the gesture is well recognised
-            if(className=="ok" or className=="fist" or className=="peace" or className=="thumbs up" or className=="thumbs down"):
-                self.AddSubscribersForGestureEvent(self.send_event(className))
+            if(self.className=="ok" or self.className=="fist" or self.className=="peace" or self.className=="thumbs up" or self.className=="thumbs down"):
+                self.AddSubscribersForGestureEvent(self.send_event)
                 self.raise_event()
+                gesture_rec = True
 
 
             # Show the final output
             cv2.imshow("Output", frame)
-            if cv2.waitKey(1) == ord('q'):
+            if cv2.waitKey(1) == ord('q') or gesture_rec == True:
+                gesture_rec = False
                 break
         # release the webcam and destroy all active windows
         cap.release()
         cv2.destroyAllWindows()
 
-# TODO Finish this method
-    def send_event(self, pred_gesture):
-        if(pred_gesture=="ok"):
+
+    def send_event(self):
+        if(self.className=="ok"):
+            inter = InteractionManager()
             InteractionManager.interaction_event = "ok"
-        elif(pred_gesture=="fist"):
-            print("The gesture recognised is fist")
-        elif(pred_gesture=="peace"):
-            print("The gesture recognised is peace")
-        elif(pred_gesture=="thumbs up"):
-            print("The gesture recognised is thumb up")
-        elif(pred_gesture=="thumbs down"):
-            print("The gesture recognised is thumb down")
+        elif(self.className=="fist"):
+            InteractionManager.interaction_event = "fist"
+        elif(self.className=="peace"):
+            InteractionManager.interaction_event = "peace"
+        elif(self.className=="thumbs up"):
+            InteractionManager.interaction_event = "thumbs up"
+        elif(self.className=="thumbs down"):
+            InteractionManager.interaction_event = "thumbs down"
         else:
             print("The gesture is unkown.")
 
