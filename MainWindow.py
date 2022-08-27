@@ -75,13 +75,10 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(widget)"""
 
 
+    def activateFocus(self, name):
+        if(name=="textboxAge"):
+            self.textboxAge.setFocus(True)
+        else:
+            print("The element has not been found")
 
-app = QApplication(sys.argv)
 
-window = MainWindow()
-
-#window.setGeometry(100, 60, 1000, 800)
-
-window.show()
-
-app.exec()

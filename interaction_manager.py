@@ -1,6 +1,9 @@
 from Gesture_Recognition import GestureRecognition
+from MainWindow import MainWindow
+from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QGridLayout, QLabel, QLineEdit, QPushButton
+from PyQt5.QtGui import QPalette, QColor
 
-
+import sys
 import mediapipe as mp
 import tensorflow as tf
 # from Speech_Recognition import SpeechRecognition
@@ -10,32 +13,30 @@ class InteractionManager:
     interaction_event = "unkown"
 
     def __init__(self) -> None:
-        pass
+        self.app = QApplication(sys.argv)
+        self.window = MainWindow()
 
-    def activateInteraction(self):
+    def activateUI(self):                
+
+        self.window.show()
+
+        app.exec()
+
+    def activateGestureInteraction(self):
         
         gr = GestureRecognition()
-        # gr.init_tensorflow()
-        gr.recognize_handGestures()
+        
+        className = gr.recognize_handGestures()
+
+        print("The prediction is", className)
+
+        self.window.activateFocus("textboxaAge")
 
         # sr = SpeechRecognition()
         # sr.list_mics()
         # sr.speechRecognition()
     
-    # TODO Provisional content
-    def act_gesture_recognition(self):
-        if(self.interaction_event=="ok"):
-            print("The gesture recognised is ok")
-        elif(self.interaction_event=="fist"):
-            print("The gesture recognised is fist")
-        elif(self.interaction_event=="peace"):
-            print("The gesture recognised is peace")
-        elif(self.interaction_event=="thumbs up"):
-            print("The gesture recognised is thumb up")
-        elif(self.interaction_event=="thumbs down"):
-            print("The gesture recognised is thumb down")
-        else:
-            print("The gesture is unkown.")
+    
 
 
 

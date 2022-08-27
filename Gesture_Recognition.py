@@ -3,9 +3,6 @@ import cv2
 import numpy as np
 import mediapipe as mp
 import tensorflow as tf
-from interaction_manager import InteractionManager
-# from interaction_manager import InteractionManager
-
 from tensorflow.keras.models import load_model
 from Event_handler import Event_Interaction
 
@@ -100,21 +97,11 @@ class GestureRecognition:
         cap.release()
         cv2.destroyAllWindows()
 
+        return self.className
+
 
     def send_event(self):
-        if(self.className=="ok"):
-            inter = InteractionManager()
-            InteractionManager.interaction_event = "ok"
-        elif(self.className=="fist"):
-            InteractionManager.interaction_event = "fist"
-        elif(self.className=="peace"):
-            InteractionManager.interaction_event = "peace"
-        elif(self.className=="thumbs up"):
-            InteractionManager.interaction_event = "thumbs up"
-        elif(self.className=="thumbs down"):
-            InteractionManager.interaction_event = "thumbs down"
-        else:
-            print("The gesture is unkown.")
+        pass
 
 
    
