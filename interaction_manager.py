@@ -10,9 +10,9 @@ import tensorflow as tf
 from tensorflow.keras.models import load_model
 
 class InteractionManager:
-    interaction_event = "unkown"
+    
 
-    def __init__(self) -> None:
+    """def __init__(self) -> None:
         self.app = QApplication(sys.argv)
         self.window = MainWindow()
 
@@ -20,7 +20,7 @@ class InteractionManager:
 
         self.window.show()
 
-        app.exec()
+        self.app.exec()
 
     def activateGestureInteraction(self):
         
@@ -31,6 +31,34 @@ class InteractionManager:
         print("The prediction is", className)
 
         self.window.activateFocus("textboxaAge")
+
+        # sr = SpeechRecognition()
+        # sr.list_mics()
+        # sr.speechRecognition()"""
+
+    def __init__(self) -> None:
+        pass
+
+             
+
+        
+
+    def activateGestureInteraction(self):
+        
+        app = QApplication(sys.argv)
+        window = MainWindow()
+
+        window.show()
+
+        app.exec()
+
+        gr = GestureRecognition()
+        
+        className = gr.recognize_handGestures()
+
+        print("The prediction is", className)
+
+        window.activateFocus("textboxAge")
 
         # sr = SpeechRecognition()
         # sr.list_mics()
