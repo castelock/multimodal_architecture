@@ -3,6 +3,7 @@ import cv2
 import numpy as np
 import mediapipe as mp
 import tensorflow as tf
+import speech_recognition as sr
 from tensorflow.keras.models import load_model
 from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QGridLayout, QLabel, QLineEdit, QPushButton
 from PyQt5.QtGui import QPalette, QColor, QImage, QPixmap
@@ -74,21 +75,18 @@ class MainWindow(QMainWindow):
 
         self.buttonExit.move(int(0.6*self.windowWidth), int(0.5*self.windowHeight))
 
-        # TODO ???
-        self.labelCam = QLabel(self)
-
+        # Gesture recognition variables        
         self.mpHands = mp.solutions.hands
         self.hands = self.mpHands.Hands(max_num_hands=1, min_detection_confidence=0.7)
         self.mpDraw = mp.solutions.drawing_utils
         self.model = load_model('mp_hand_gesture')
         self.className = "unkown" 
 
-        # self.setLayout(layout)
-        """widget = QWidget()
-        widget.setLayout(layout)        
+        # Speech recognition variables
+        self.rec = sr.Recognizer()
+        self.mic = sr.Microphone()
+
         
-        
-        self.setCentralWidget(widget)"""
 
 
     def activateFocus(self, name):
@@ -142,6 +140,7 @@ class MainWindow(QMainWindow):
             if(self.className=="ok" or self.className=="fist" or self.className=="peace" or self.className=="thumbs up" or self.className=="thumbs down"):
                 print("Gesture recognized!!")
                 print("The gesture recognized is", self.className)
+                self.commandUI()
                 self.className = "unkown"
                 # gesture_rec = True
 
@@ -156,6 +155,18 @@ class MainWindow(QMainWindow):
                 break
         # release the webcam and destroy all active windows
         cap.release()
+
+    def commandUI(self):
+        if(self.className=="fist"):
+            self.textboxName.setFocus(True)
+        elif(self.className=="peace"):
+            self.textboxLastName.setFocus(True)
+        elif(self.className=="ok"):
+            self.textboxAge.setFocus(True)
+        elif(self.className=="thumbs up"):
+            print("Button Send action")
+        elif(self.className=="thumbs down"):
+            QApplication.quit()
 
 # Starting the main flow of the GUI
 app = QApplication(sys.argv)
