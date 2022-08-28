@@ -85,6 +85,7 @@ class MainWindow(QMainWindow):
         # Speech recognition variables
         self.rec = sr.Recognizer()
         self.mic = sr.Microphone()
+        self.speechCommand = "unkown" 
 
         
 
@@ -156,17 +157,38 @@ class MainWindow(QMainWindow):
         # release the webcam and destroy all active windows
         cap.release()
 
+    def recognizeSpeech(self):
+        with self.mic as source:
+            self.rec.adjust_for_ambient_noise(source)
+            audio = self.rec.listen(source)
+        
+        try:
+            self.speechCommand = self.rec.recognize_google(audio)
+        except sr.RequestError:
+            # API was unreachable or unresponsive
+            print("API unavailable")
+        except sr.UnknownValueError:
+            # speech was unintelligible
+            print("Unable to recognize speech")
+                
+        if(self.speechCommand == "nombre" or self.speechCommand == "apellidos" or self.speechCommand == "edad" or self.speechCommand == "enviar" or self.speechCommand == "salir"):
+            self.commandUI()
+
+        print(self.speechCommand)
+
     def commandUI(self):
-        if(self.className=="fist"):
+        if(self.className=="fist" or self.speechCommand=="nombre"):
             self.textboxName.setFocus(True)
-        elif(self.className=="peace"):
+        elif(self.className=="peace" or self.speechCommand=="apellidos"):
             self.textboxLastName.setFocus(True)
-        elif(self.className=="ok"):
+        elif(self.className=="ok" or self.speechCommand=="edad"):
             self.textboxAge.setFocus(True)
-        elif(self.className=="thumbs up"):
+        elif(self.className=="thumbs up" or self.speechCommand=="enviar"):
             print("Button Send action")
-        elif(self.className=="thumbs down"):
+        elif(self.className=="thumbs down" or self.speechCommand=="salir"):
             QApplication.quit()
+        else:
+            print("Command not identified.")
 
 # Starting the main flow of the GUI
 app = QApplication(sys.argv)
@@ -174,7 +196,12 @@ window = MainWindow()
 
 window.show()
 
+# Gesture recognition thread
 thread = Thread(target=window.recognizeGestures, daemon=True)
 thread.start()
+
+# Speech recognition thread
+thread_speech = Thread(target=window.speechCommand, daemon=True)
+thread_speech.start()
 
 app.exec()
