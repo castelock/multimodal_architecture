@@ -4,6 +4,7 @@ import numpy as np
 import mediapipe as mp
 import tensorflow as tf
 import speech_recognition as sr
+import keyboard
 from tensorflow.keras.models import load_model
 from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QGridLayout, QLabel, QLineEdit, QPushButton
 from PyQt5.QtGui import QPalette, QColor, QImage, QPixmap
@@ -110,7 +111,7 @@ class MainWindow(QMainWindow):
             framergb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             img = QImage(framergb, framergb.shape[1], framergb.shape[0], QImage.Format_RGB888)
             pix = QPixmap.fromImage(img)
-            self.labelCam.setPixmap(pix)
+            # self.labelCam.setPixmap(pix)
             # Get hand landmark prediction
             result = self.hands.process(framergb)
             # className = ''
@@ -150,31 +151,32 @@ class MainWindow(QMainWindow):
             #cv2.imshow("Output", frame)
             img = QImage(frame, frame.shape[1], frame.shape[0], QImage.Format_RGB888)
             pix = QPixmap.fromImage(img)
-            self.labelCam.setPixmap(pix)
-            if cv2.waitKey(1) == ord('q') or gesture_rec == True:
+            # self.labelCam.setPixmap(pix)
+            if gesture_rec == True:
                 gesture_rec = False
                 break
         # release the webcam and destroy all active windows
         cap.release()
 
     def recognizeSpeech(self):
-        with self.mic as source:
-            self.rec.adjust_for_ambient_noise(source)
-            audio = self.rec.listen(source)
-        
-        try:
-            self.speechCommand = self.rec.recognize_google(audio)
-        except sr.RequestError:
-            # API was unreachable or unresponsive
-            print("API unavailable")
-        except sr.UnknownValueError:
-            # speech was unintelligible
-            print("Unable to recognize speech")
-                
-        if(self.speechCommand == "nombre" or self.speechCommand == "apellidos" or self.speechCommand == "edad" or self.speechCommand == "enviar" or self.speechCommand == "salir"):
-            self.commandUI()
+        while True:
+            with self.mic as source:
+                self.rec.adjust_for_ambient_noise(source)
+                audio = self.rec.listen(source)
+            
+            try:
+                self.speechCommand = self.rec.recognize_google(audio, language="es-ES")
+            except sr.RequestError:
+                # API was unreachable or unresponsive
+                print("API unavailable")
+            except sr.UnknownValueError:
+                # speech was unintelligible
+                print("Unable to recognize speech")
+                    
+            if(self.speechCommand == "nombre" or self.speechCommand == "apellidos" or self.speechCommand == "edad" or self.speechCommand == "enviar" or self.speechCommand == "salir"):
+                self.commandUI()
 
-        print(self.speechCommand)
+            print(self.speechCommand)
 
     def commandUI(self):
         if(self.className=="fist" or self.speechCommand=="nombre"):
@@ -201,7 +203,7 @@ thread = Thread(target=window.recognizeGestures, daemon=True)
 thread.start()
 
 # Speech recognition thread
-thread_speech = Thread(target=window.speechCommand, daemon=True)
+thread_speech = Thread(target=window.recognizeSpeech, daemon=True)
 thread_speech.start()
 
 app.exec()
