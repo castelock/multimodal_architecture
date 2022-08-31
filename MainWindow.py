@@ -34,8 +34,7 @@ class MainWindow(QMainWindow):
         layout.addWidget(QLineEdit(), 3, 2)
         layout.addWidget(QPushButton("Enviar"), 4, 3)
         
-        # setting  the size of window
-        # setGeometry(left, top, width, height)
+        # setting the window size
         self.setGeometry(100, 60, self.windowWidth, self.windowHeight)
 
         self.labelTitle = QLabel("FORMULARIO",self)
