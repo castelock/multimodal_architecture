@@ -3,10 +3,11 @@ import cv2
 import numpy as np
 import mediapipe as mp
 import tensorflow as tf
+from modality_component import ModalityComponent
 from tensorflow.keras.models import load_model
 from Event_handler import Event_Interaction
 
-class GestureRecognition:
+class GestureRecognition(ModalityComponent):
 
 
     def __init__(self):

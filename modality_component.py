@@ -1,2 +1,11 @@
-# Esta será una interfaz que cada modality component implementará. 
-# En un principio se compondrá solo de dos funciones input() y output() (aunque la output no la tengo clara).
+from abc import abstractmethod
+from abc import ABCMeta
+
+class ModalityComponent(metaclass=ABCMeta):
+    @abstractmethod
+    def input_mc(self):
+        pass
+
+    @abstractmethod
+    def output(self):
+        pass
