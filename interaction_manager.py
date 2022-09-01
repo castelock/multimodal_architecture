@@ -48,19 +48,12 @@ class InteractionManager:
 
     def main_flow(self):
         
+        self.gestureRecognitionMC.recognize_handGestures()
+
+        
         
 
-        gr = GestureRecognition()
         
-        className = gr.recognize_handGestures()
-
-        print("The prediction is", className)
-
-        window.activateFocus("textboxAge")
-
-        # sr = SpeechRecognition()
-        # sr.list_mics()
-        # sr.speechRecognition()
     
     
 
