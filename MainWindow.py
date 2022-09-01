@@ -190,6 +190,23 @@ class MainWindow(QMainWindow):
             QApplication.quit()
         else:
             print("Command not identified.")
+    
+    def setFocus(self, name):
+        if(name=="textboxName"):
+            self.textboxName.setFocus(True)
+        elif(name=="textboxLastName"):
+            self.textboxLastName.setFocus(True)
+        elif(name=="textboxAge"):
+            self.textboxAge.setFocus(True)
+        else:
+            print("UI element not identified.")
+
+    def createPopUpWindow(self):
+        print("Finish it")
+
+    def quitApp(self):
+        QApplication.quit()
+
 
 # Starting the main flow of the GUI
 app = QApplication(sys.argv)
