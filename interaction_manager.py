@@ -36,21 +36,19 @@ class InteractionManager:
         # sr.list_mics()
         # sr.speechRecognition()"""
 
-    def __init__(self) -> None:
-        pass
+    phase = None
+    def __init__(self, gestureRecognitionMC, gui):
+        self.gestureRecognitionMC = gestureRecognitionMC
+        self.gui = gui
+        
 
              
 
         
 
-    def activateGestureInteraction(self):
+    def main_flow(self):
         
-        app = QApplication(sys.argv)
-        window = MainWindow()
-
-        window.show()
-
-        app.exec()
+        
 
         gr = GestureRecognition()
         
