@@ -38,42 +38,54 @@ class InteractionManager:
         # sr.speechRecognition()"""
 
     phase = None
-    def __init__(self, gestureRecognitionMC, gui):
+    def __init__(self, gestureRecognitionMC, speechRecognitionMC, gui):
         self.gestureRecognitionMC = gestureRecognitionMC
+        self.speechRecognitionMC = speechRecognitionMC
         self.gui = gui
-        self.waitSignal = False  
-
-             
+        self.waitSignal = False               
 
         
 
     async def main_flow(self):
         
+        # TODO This two lines have to be implemented with threads.
+
         self.gestureRecognitionMC.recognize_handGestures()
 
+        self.speechRecognitionMC.speechRecognition()
+
         while (InteractionManager.phase != "exit"):
-            if(InteractionManager.phase=="gesture_recognised"):
+            if (InteractionManager.phase=="gesture_recognised"):
                 message = self.action_UI()
-                self.gestureRecognitionMC.set_response(message)        
+                self.gestureRecognitionMC.set_response(message)
+            elif (InteractionManager.phase=="speech_recognised"):
+                message = self.action_UI()
         
 
         
     def action_UI(self):
-        gesture = self.gestureRecognitionMC.getGesture()
+        gesture = " "
+        speech = " "
         message = " "
-        if(gesture =="fist" or self.speechCommand=="nombre"):
+
+        if InteractionManager.phase=="gesture_recognised":
+            gesture = self.gestureRecognitionMC.getGesture()
+        elif InteractionManager.phase=="speech_recognised":
+            speech = self.speechRecognitionMC.getCommand()
+
+        if(gesture =="fist" or speech=="nombre"):
             self.gui.setFocus("textboxName")
             message = "Acción realizada correctamente"
-        elif(gesture=="peace" or self.speechCommand=="apellidos"):
+        elif(gesture=="peace" or speech=="apellidos"):
             self.gui.setFocus("textboxLastName")
             message = "Acción realizada correctamente"
-        elif(gesture=="ok" or self.speechCommand=="edad"):
+        elif(gesture=="ok" or speech=="edad"):
             self.gui.setFocus("textboxAge")
             message = "Acción realizada correctamente"
-        elif(gesture=="thumbs up" or self.speechCommand=="enviar"):
+        elif(gesture=="thumbs up" or speech=="enviar"):
             self.gui.createPopUpWindow()
             message = "Acción realizada correctamente"
-        elif(gesture=="thumbs down" or self.speechCommand=="salir"):
+        elif(gesture=="thumbs down" or speech=="salir"):
             self.gui.quitApp()
             message = "Acción realizada correctamente"
         else:

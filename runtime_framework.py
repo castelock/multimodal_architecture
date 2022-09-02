@@ -1,4 +1,5 @@
 from Gesture_Recognition import GestureRecognition
+from Speech_Recognition import SpeechRecognition
 from interaction_manager import InteractionManager
 from threading import Thread
 
@@ -28,10 +29,8 @@ app.exec()
 
 gr = GestureRecognition()
 
-interaction_manager = InteractionManager()
-interaction_manager.activateGestureInteraction()
+sr = SpeechRecognition()
 
+interaction_manager = InteractionManager(gr, sr, window)
+interaction_manager.main_flow()
 
-
-"""interact_manager.activateUI()
-interact_manager.activateGestureInteraction()"""

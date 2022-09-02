@@ -47,8 +47,7 @@ class GestureRecognition(ModalityComponent):
         self.gesture_event -= objMethod
 
     # Main method to recognise a gesture
-    async def recognize_handGestures(self):
-        
+    async def recognize_handGestures(self):        
         
         while True:
             framergb = self.input_mc()
@@ -78,11 +77,11 @@ class GestureRecognition(ModalityComponent):
             # Show the prediction on the frame
             cv2.putText(framergb, self.className, (10, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,255), 2, cv2.LINE_AA)
 
-            # Send event if the gesture is well recognised
+            # Enviar evento si el gesto es reconocido correctamente
             if(self.className=="ok" or self.className=="fist" or self.className=="peace" or self.className=="thumbs up" or self.className=="thumbs down"):
                 self.send_messageIM()
                 response = await self.wait_response()
-                print("El mensaje del Interaction Manager es {}",response)
+                print("El mensaje del Interaction Manager es {}".format(response))
 
 
             # Show the final output
@@ -124,8 +123,8 @@ class GestureRecognition(ModalityComponent):
         self.waitSignal = True
         self.responseIM = response
 
-        def getGesture(self):
-            return self.className
+    def getGesture(self):
+        return self.className
 
 
    
