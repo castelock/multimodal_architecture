@@ -2,23 +2,11 @@ from Gesture_Recognition import GestureRecognition
 from Speech_Recognition import SpeechRecognition
 from interaction_manager import InteractionManager
 from threading import Thread
-
-def actGesture():
-    interact_manager = InteractionManager()
-    interact_manager.activateGestureInteraction()
-
-def actUI():
-    interact_manager = InteractionManager()
-    interact_manager.activateUI()
+from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QGridLayout, QLabel, QLineEdit, QPushButton
+from PyQt5.QtGui import QPalette, QColor, QImage, QPixmap
+from MainWindow import MainWindow
 
 
-"""t1 = Thread(target=actUI, daemon=True)
-t2 = Thread(target=actGesture, daemon=True)
-
-t1.start()
-t2.start()"""
-
-#t2.join()
 
 app = QApplication(sys.argv)
 window = MainWindow()

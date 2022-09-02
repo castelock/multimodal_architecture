@@ -77,11 +77,7 @@ class GestureRecognition(ModalityComponent):
             # Show the prediction on the frame
             cv2.putText(framergb, self.className, (10, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,255), 2, cv2.LINE_AA)
 
-            # Enviar evento si el gesto es reconocido correctamente
-            if(self.className=="ok" or self.className=="fist" or self.className=="peace" or self.className=="thumbs up" or self.className=="thumbs down"):
-                self.send_messageIM()
-                response = await self.wait_response()
-                print("El mensaje del Interaction Manager es {}".format(response))
+            self.output()
 
 
             # Show the final output
@@ -89,7 +85,8 @@ class GestureRecognition(ModalityComponent):
             if cv2.waitKey(1) == ord('q'):                
                 break
         # Release the webcam and destroy all active windows
-        self.output()
+        cap.release()
+        cv2.destroyAllWindows()
 
         return self.className
 
@@ -105,9 +102,13 @@ class GestureRecognition(ModalityComponent):
 
         return framergb
 
-    def output(self):
-        cap.release()
-        cv2.destroyAllWindows()
+    async def output(self):
+        # Enviar evento si el gesto es reconocido correctamente
+        if(self.className=="ok" or self.className=="fist" or self.className=="peace" or self.className=="thumbs up" or self.className=="thumbs down"):
+            self.send_messageIM()
+            response = await self.wait_response()
+            print("El mensaje del Interaction Manager es {}".format(response))
+        
         
     def send_messageIM(self):
         InteractionManager.phase = "gesture_recognised"
