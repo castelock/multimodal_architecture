@@ -2,6 +2,7 @@ from Gesture_Recognition import GestureRecognition
 from MainWindow import MainWindow
 from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QGridLayout, QLabel, QLineEdit, QPushButton
 from PyQt5.QtGui import QPalette, QColor
+from threading import Thread
 
 import sys
 import mediapipe as mp
@@ -48,11 +49,12 @@ class InteractionManager:
 
     async def main_flow(self):
         
-        # TODO This two lines have to be implemented with threads.
+        thread_gestures = Thread(target=self.gestureRecognitionMC.recognize_handGestures, daemon=True)
+        thread_gestures.start()
 
-        self.gestureRecognitionMC.recognize_handGestures()
-
-        self.speechRecognitionMC.speechRecognition()
+        thread_speech = Thread(target=self.speechRecognitionMC.speechRecognition, daemon=True)
+        thread_speech.start()
+        
 
         while (InteractionManager.phase != "exit"):
             if (InteractionManager.phase=="gesture_recognised"):

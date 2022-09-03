@@ -6,7 +6,7 @@ import tensorflow as tf
 import speech_recognition as sr
 import keyboard
 from tensorflow.keras.models import load_model
-from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QGridLayout, QLabel, QLineEdit, QPushButton
+from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QGridLayout, QLabel, QLineEdit, QPushButton, QMessageBox
 from PyQt5.QtGui import QPalette, QColor, QImage, QPixmap
 from threading import Thread
 
@@ -185,11 +185,11 @@ class MainWindow(QMainWindow):
         elif(self.className=="ok" or self.speechCommand=="edad"):
             self.textboxAge.setFocus(True)
         elif(self.className=="thumbs up" or self.speechCommand=="enviar"):
-            print("Button Send action")
+            self.buttonSend.clicked.connect(self.createPopupMenu())
         elif(self.className=="thumbs down" or self.speechCommand=="salir"):
             QApplication.quit()
         else:
-            print("Command not identified.")
+            print("Orden no identificado.")
     
     def setFocus(self, name):
         if(name=="textboxName"):
@@ -199,10 +199,13 @@ class MainWindow(QMainWindow):
         elif(name=="textboxAge"):
             self.textboxAge.setFocus(True)
         else:
-            print("UI element not identified.")
+            print("Elemento de la interfaz de usuario no identificado.")
 
     def createPopUpWindow(self):
-        print("Finish it")
+        msg = QMessageBox()
+        msg.setWindowTitle("Formulario Enviado")
+        msg.setText("Los datos del formulario fueron enviados.")
+        msg.exec_()
 
     def quitApp(self):
         QApplication.quit()

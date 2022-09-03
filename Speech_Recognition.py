@@ -21,9 +21,6 @@ class SpeechRecognition(ModalityComponent):
         self.mic = sr.Microphone()        
          
 
-    def output(self):
-        return super().output()
-
     async def speechRecognition(self):
 
         self.input_mc()
@@ -43,15 +40,19 @@ class SpeechRecognition(ModalityComponent):
                 print("Unable to recognize speech")
             
             # Enviar evento si el comando es reconocido correctamente
-            if(self.command=="nombre" or self.command=="apellidos" or self.command=="edad" or self.command=="enviar" or self.command=="salir"):
-                self.send_messageIM()
-                response = await self.wait_response()
-                print("El mensaje del Interaction Manager es {}",response)
+            self.output()
+            
 
             if cv2.waitKey(1) == ord('q'):                
                 break
         
         self.output()
+    
+    async def output(self):
+        if(self.command=="nombre" or self.command=="apellidos" or self.command=="edad" or self.command=="enviar" or self.command=="salir"):
+            self.send_messageIM()
+            response = await self.wait_response()
+            print("El mensaje del Interaction Manager es {}",response)
     
     def send_messageIM(self):
         InteractionManager.phase = "speech_recognised"
