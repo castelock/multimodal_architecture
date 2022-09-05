@@ -19,8 +19,8 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("My App")
 
         # Window width and height
-        self.windowWidth = 1000
-        self.windowHeight = 800
+        self.windowWidth = 800
+        self.windowHeight = 600
            
         # setting the window size
         self.setGeometry(100, 60, self.windowWidth, self.windowHeight)
@@ -29,52 +29,75 @@ class MainWindow(QMainWindow):
 
         self.labelTitle = QLabel("FORMULARIO",self)
 
-        self.labelTitle.move(int(0.4*self.windowWidth), int(0.1*self.windowHeight))
+        self.labelTitle.move(int(0.35*self.windowWidth), int(0.1*self.windowHeight))
 
-        self.labelTitle.setStyleSheet('width:100%; font-family: "Lucida Console", "Brush Script MT", cursive; font-weight: bold; color:rgb(151,9,4);')
+        self.labelTitle.setStyleSheet('font-weight: bold; color:rgb(151,9,4);')
 
-        # self.labelTitle.resize(300, 100)
         self.labelTitle.setFont(QFont('Arial', 30))
 
         self.labelTitle.adjustSize()
 
         self.labelName = QLabel("Nombre",self)
 
-        self.labelName.move(int(0.1*self.windowWidth), int(0.2*self.windowHeight))
+        self.labelName.move(int(0.33*self.windowWidth), int(0.3*self.windowHeight))
 
-        self.labelName.setStyleSheet('font-family: "Lucida Console", "Brush Script MT", cursive; font-weight: bold;')
+        self.labelName.setStyleSheet('font-weight: bold; color:rgb(151,9,4);')
+
+        self.labelName.setFont(QFont('Arial', 14))
 
         self.textboxName = QLineEdit(self)
 
-        self.textboxName.move(int(0.2*self.windowWidth), int(0.2*self.windowHeight))
+        self.textboxName.move(int(0.48*self.windowWidth), int(0.3*self.windowHeight))
+
+        self.textboxName.setFixedWidth(200)
+
+        self.textboxName.setStyleSheet('background-color:white;')
 
         self.labelLastName = QLabel("Apellidos",self)
 
-        self.labelLastName.move(int(0.1*self.windowWidth), int(0.3*self.windowHeight))
+        self.labelLastName.move(int(0.33*self.windowWidth), int(0.45*self.windowHeight))
+
+        self.labelLastName.setStyleSheet('font-weight: bold; color:rgb(151,9,4);')
+
+        self.labelLastName.setFont(QFont('Arial', 14))
 
         self.textboxLastName = QLineEdit(self)
 
-        self.textboxLastName.move(int(0.2*self.windowWidth), int(0.3*self.windowHeight))
+        self.textboxLastName.move(int(0.48*self.windowWidth), int(0.45*self.windowHeight))
+        
+        self.textboxLastName.setFixedWidth(200)
+
+        self.textboxLastName.setStyleSheet('background-color:white;')
 
         self.labelAge = QLabel("Edad",self)
 
-        self.labelAge.move(int(0.1*self.windowWidth), int(0.4*self.windowHeight))
+        self.labelAge.move(int(0.33*self.windowWidth), int(0.6*self.windowHeight))        
+        
+        self.labelAge.setStyleSheet('font-weight: bold; color:rgb(151,9,4);')
+        
+        self.labelAge.setFont(QFont('Arial', 14))
 
         self.textboxAge = QLineEdit(self)
 
-        self.textboxAge.move(int(0.2*self.windowWidth), int(0.4*self.windowHeight))
+        self.textboxAge.move(int(0.48*self.windowWidth), int(0.6*self.windowHeight))
+
+        self.textboxAge.setFixedWidth(200)
+
+        self.textboxAge.setStyleSheet('background-color:white;')
 
         self.buttonSend = QPushButton("Enviar", self)
 
-        self.buttonSend.move(int(0.4*self.windowWidth), int(0.5*self.windowHeight))
+        self.buttonSend.move(int(0.35*self.windowWidth), int(0.8*self.windowHeight))
 
-        self.buttonSend.setStyleSheet('border: 2px solid black; border-radius: 10px; background-color: rgb(255, 255, 255);')
+        self.buttonSend.setStyleSheet('border: 2px solid black; border-radius: 10px; background-color: rgb(170,15,2); font-weight: bold; color:white;')
 
         self.buttonSend.clicked.connect(self.createPopUpWindow)
 
         self.buttonExit = QPushButton("Salir", self)
 
-        self.buttonExit.move(int(0.6*self.windowWidth), int(0.5*self.windowHeight))
+        self.buttonExit.move(int(0.55*self.windowWidth), int(0.8*self.windowHeight))
+
+        self.buttonExit.setStyleSheet('border: 2px solid black; border-radius: 10px; background-color: rgb(170,15,2); font-weight: bold; color:white;')
 
         self.buttonExit.clicked.connect(self.quitApp)
 
