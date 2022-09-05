@@ -7,7 +7,7 @@ import speech_recognition as sr
 import keyboard
 from tensorflow.keras.models import load_model
 from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QGridLayout, QLabel, QLineEdit, QPushButton, QMessageBox
-from PyQt5.QtGui import QPalette, QColor, QImage, QPixmap
+from PyQt5.QtGui import QPalette, QColor, QImage, QPixmap, QFont
 from threading import Thread
 
 
@@ -21,31 +21,28 @@ class MainWindow(QMainWindow):
         # Window width and height
         self.windowWidth = 1000
         self.windowHeight = 800
-
-        # Layout
-        layout = QGridLayout()
-        #layout.setSpacing(10)
-
-        layout.addWidget(QLabel("Nombre"), 1, 1)
-        layout.addWidget(QLineEdit(), 1, 2)
-        layout.addWidget(QLabel("Apellidos"), 2, 1)
-        layout.addWidget(QLineEdit(), 2, 2)
-        layout.addWidget(QLabel("Edad"), 3, 1)
-        layout.addWidget(QLineEdit(), 3, 2)
-        layout.addWidget(QPushButton("Enviar"), 4, 3)
-        
+           
         # setting the window size
         self.setGeometry(100, 60, self.windowWidth, self.windowHeight)
 
+        self.setStyleSheet('background-color: rgb(250,250,226);')
+
         self.labelTitle = QLabel("FORMULARIO",self)
 
-        self.labelTitle.move(int(0.5*self.windowWidth), int(0.1*self.windowHeight))
+        self.labelTitle.move(int(0.4*self.windowWidth), int(0.1*self.windowHeight))
 
-        # TODO Use setStyleSheet to modify the widget's properties.
+        self.labelTitle.setStyleSheet('width:100%; font-family: "Lucida Console", "Brush Script MT", cursive; font-weight: bold; color:rgb(151,9,4);')
+
+        # self.labelTitle.resize(300, 100)
+        self.labelTitle.setFont(QFont('Arial', 30))
+
+        self.labelTitle.adjustSize()
 
         self.labelName = QLabel("Nombre",self)
 
         self.labelName.move(int(0.1*self.windowWidth), int(0.2*self.windowHeight))
+
+        self.labelName.setStyleSheet('font-family: "Lucida Console", "Brush Script MT", cursive; font-weight: bold;')
 
         self.textboxName = QLineEdit(self)
 
@@ -71,9 +68,15 @@ class MainWindow(QMainWindow):
 
         self.buttonSend.move(int(0.4*self.windowWidth), int(0.5*self.windowHeight))
 
+        self.buttonSend.setStyleSheet('border: 2px solid black; border-radius: 10px; background-color: rgb(255, 255, 255);')
+
+        self.buttonSend.clicked.connect(self.createPopUpWindow)
+
         self.buttonExit = QPushButton("Salir", self)
 
         self.buttonExit.move(int(0.6*self.windowWidth), int(0.5*self.windowHeight))
+
+        self.buttonExit.clicked.connect(self.quitApp)
 
         # Gesture recognition variables        
         self.mpHands = mp.solutions.hands
