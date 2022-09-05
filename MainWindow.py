@@ -101,12 +101,18 @@ class MainWindow(QMainWindow):
 
         self.buttonExit.clicked.connect(self.quitApp)
 
+        # Label cam
+        self.labelCam = QLabel()
+        self.labelCam.move(int(0.1*self.windowWidth), int(0.6*self.windowHeight))
+        self.labelCam.setFixedSize(240, 240)
+
         # Gesture recognition variables        
         self.mpHands = mp.solutions.hands
         self.hands = self.mpHands.Hands(max_num_hands=1, min_detection_confidence=0.7)
         self.mpDraw = mp.solutions.drawing_utils
         self.model = load_model('mp_hand_gesture')
         self.className = "unkown" 
+        self.popupWindowActivated = False
 
         # Speech recognition variables
         self.rec = sr.Recognizer()
@@ -163,6 +169,15 @@ class MainWindow(QMainWindow):
             # Show the prediction on the frame
             cv2.putText(frame, self.className, (10, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,255), 2, cv2.LINE_AA)
 
+            # Show the final output
+            #cv2.imshow("Output", frame)
+            img = QImage(frame, frame.shape[1], frame.shape[0], QImage.Format_RGB888)
+            pix = QPixmap.fromImage(img)
+            self.labelCam.setPixmap(pix)
+            if gesture_rec == True:
+                gesture_rec = False
+                break
+
             # Send event if the gesture is well recognised
             if(self.className=="ok" or self.className=="fist" or self.className=="peace" or self.className=="thumbs up" or self.className=="thumbs down"):
                 print("Gesture recognized!!")
@@ -172,14 +187,7 @@ class MainWindow(QMainWindow):
                 # gesture_rec = True
 
 
-            # Show the final output
-            #cv2.imshow("Output", frame)
-            img = QImage(frame, frame.shape[1], frame.shape[0], QImage.Format_RGB888)
-            pix = QPixmap.fromImage(img)
-            # self.labelCam.setPixmap(pix)
-            if gesture_rec == True:
-                gesture_rec = False
-                break
+           
         # release the webcam and destroy all active windows
         cap.release()
 
@@ -210,8 +218,8 @@ class MainWindow(QMainWindow):
             self.textboxLastName.setFocus(True)
         elif(self.className=="ok" or self.speechCommand=="edad"):
             self.textboxAge.setFocus(True)
-        elif(self.className=="thumbs up" or self.speechCommand=="enviar"):
-            self.buttonSend.clicked.connect(self.createPopupMenu())
+        elif((self.className=="thumbs up" or self.speechCommand=="enviar") and self.popupWindowActivated == False):
+            self.createPopUpWindow()
         elif(self.className=="thumbs down" or self.speechCommand=="salir"):
             QApplication.quit()
         else:
@@ -228,10 +236,16 @@ class MainWindow(QMainWindow):
             print("Elemento de la interfaz de usuario no identificado.")
 
     def createPopUpWindow(self):
+        self.popupWindowActivated = True
         msg = QMessageBox()
         msg.setWindowTitle("Formulario Enviado")
         msg.setText("Los datos del formulario fueron enviados.")
-        msg.exec_()
+        result = msg.exec_()
+
+        if(result == QMessageBox.Close):
+            self.popupWindowActivated = False
+
+
 
     def quitApp(self):
         QApplication.quit()
