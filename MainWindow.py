@@ -25,13 +25,13 @@ class MainWindow(QMainWindow):
         # setting the window size
         self.setGeometry(100, 60, self.windowWidth, self.windowHeight)
 
-        self.setStyleSheet('background-color: rgb(250,250,226);')
+        self.setStyleSheet('background-color: rgb(49,96,148);')
 
         self.labelTitle = QLabel("FORMULARIO",self)
 
         self.labelTitle.move(int(0.35*self.windowWidth), int(0.1*self.windowHeight))
 
-        self.labelTitle.setStyleSheet('font-weight: bold; color:rgb(151,9,4);')
+        self.labelTitle.setStyleSheet('font-weight: bold; color:white;')
 
         self.labelTitle.setFont(QFont('Arial', 30))
 
@@ -41,7 +41,7 @@ class MainWindow(QMainWindow):
 
         self.labelName.move(int(0.33*self.windowWidth), int(0.3*self.windowHeight))
 
-        self.labelName.setStyleSheet('font-weight: bold; color:rgb(151,9,4);')
+        self.labelName.setStyleSheet('font-weight: bold; color:white;')
 
         self.labelName.setFont(QFont('Arial', 14))
 
@@ -57,7 +57,7 @@ class MainWindow(QMainWindow):
 
         self.labelLastName.move(int(0.33*self.windowWidth), int(0.45*self.windowHeight))
 
-        self.labelLastName.setStyleSheet('font-weight: bold; color:rgb(151,9,4);')
+        self.labelLastName.setStyleSheet('font-weight: bold; color:white;')
 
         self.labelLastName.setFont(QFont('Arial', 14))
 
@@ -73,7 +73,7 @@ class MainWindow(QMainWindow):
 
         self.labelAge.move(int(0.33*self.windowWidth), int(0.6*self.windowHeight))        
         
-        self.labelAge.setStyleSheet('font-weight: bold; color:rgb(151,9,4);')
+        self.labelAge.setStyleSheet('font-weight: bold; color:white;')
         
         self.labelAge.setFont(QFont('Arial', 14))
 
@@ -89,7 +89,7 @@ class MainWindow(QMainWindow):
 
         self.buttonSend.move(int(0.35*self.windowWidth), int(0.8*self.windowHeight))
 
-        self.buttonSend.setStyleSheet('border: 2px solid black; border-radius: 10px; background-color: rgb(170,15,2); font-weight: bold; color:white;')
+        self.buttonSend.setStyleSheet('border: 2px solid black; border-radius: 10px; background-color: rgb(0,141,191); font-weight: bold; color:white;')
 
         self.buttonSend.clicked.connect(self.createPopUpWindow)
 
@@ -97,7 +97,7 @@ class MainWindow(QMainWindow):
 
         self.buttonExit.move(int(0.55*self.windowWidth), int(0.8*self.windowHeight))
 
-        self.buttonExit.setStyleSheet('border: 2px solid black; border-radius: 10px; background-color: rgb(170,15,2); font-weight: bold; color:white;')
+        self.buttonExit.setStyleSheet('border: 2px solid black; border-radius: 10px; background-color: rgb(0,141,191); font-weight: bold; color:white;')
 
         self.buttonExit.clicked.connect(self.quitApp)
 
